@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--
+    Author: Phusana Suwannachote
+    Project: Health Insurance Risk Calculator for the Web
+
+    All rights reserved.
+-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Health Insurance Risk Calculator for the Web</title>
+</head>
+
+<body>
+    <h1 style="text-align:center;"><i>Risk Calculator</i></h1>
+    <p>This program helps you classify health insurance based on their risk level. That is determined
+        by their health. Their health is judged in terms of thier body-mass index, blood pressure, age,
+        and family history of disease.</p>
+    <style>
+        body {background-color: rgb(250, 233, 215);}
+        p    {
+             align-self: center;
+             color: brown;
+            }
+        h1   {
+            color: brown;
+            font-size: 300%;
+            }
+        label{
+            color: chocolate;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 150%;
+            }
+    </style>
+
+    <label>Age:</label><br />
+    <select id="q1">
+        <option value="0">Less than 30</option>
+        <option value="10"> Less than 45</option>
+        <option value="20">Less than 60</option>
+        <option value="30">60 and above</option>
+    </select>
+    <br /><br />
+
+    <label>BMI:</label><br />
+    <select id="q2">
+        <option value="0">Normal</option>
+        <option value="30"> OverWeight</option>
+        <option value="75">Else</option>
+    </select>
+    <br /><br />
+
+    <label>Height:</label><br />
+    <input id="hight-in-feet" type="number" placeholder="5"> lbs</input>
+    <input id="inches" type="number" placeholder="0"> inches</input>
+    <br /><br />
+
+    <label>Weight:</label><br />
+    <input id="weight-in-pounds" type="number" placeholder="0"> lbs</input>
+    <br /><br />
+
+    <label>Blood Pressure:</label><br />
+    <select id="q3">
+        <option value="0">Normal</option>
+        <option value="15"> Elevated</option>
+        <option value="30">Stage 1</option>
+        <option value="75">Stage 2</option>
+        <option value="100">Crisis</option>
+    </select>
+    <br /><br />
+
+    <label>Systolic blood pressure:</label><br />
+    <input id="SBP" type="number" placeholder="0"> mmHg</input>
+    <br /><br />
+
+    <label>Diastolic blood pressure:</label><br />
+    <input id="DBP" type="number" placeholder="0"> mmHg</input>
+    <br /><br />
+
+    <label>Family Disease(Diabetes, Cancer, Alzheimer):</label><br />
+    <select id="q4">
+        <option value="0">None</option>
+        <option value="10">Has one of the disease</option>
+        <option value="20"> Has two</option>
+        <option value="30">Has all three</option>
+    </select>
+    <br /><br />
+
+    <br /><br /><br />
+    <button onclick="calculateRisk()">Get Result</button>
+    <p id="Risk"></p>
+
+<script>
+console.log("Starting Risk Assessment...")
+
+function calculateRisk() {
+    console.log("calculateRisk()")
+
+    const DESIRE_RESPONSE = [0]
+
+    const MAX_SCORE = 100;
+
+    let question1Response = document.getElementById("q1").selectedOptions[0].value;
+    let question2Response = document.getElementById("q2").selectedOptions[0].value;
+    let question3Response = document.getElementById("q3").selectedOptions[0].value;
+    let question4Response = document.getElementById("q4").selectedOptions[0].value;
+    
+    
+    console.log("Question 1 Answers:")
+    console.log(document.getElementById("q1").selectedOptions[0].text);
+    console.log(document.getElementById("q1").selectedOptions[0].value);
+    console.log(question1Response)
+
+    console.log("Question 2 Answers:")
+    console.log(document.getElementById("q2").selectedOptions[0].text);
+    console.log(document.getElementById("q2").selectedOptions[0].value);
+    console.log(question2Response)
+    
+    console.log("Question 3 Answers:")
+    console.log(document.getElementById("q3").selectedOptions[0].text);
+    console.log(document.getElementById("q3").selectedOptions[0].value);
+    console.log(question3Response)
+
+    console.log("Question 4 Answers:")
+    console.log(document.getElementById("q4").selectedOptions[0].text);
+    console.log(document.getElementById("q4").selectedOptions[0].value);
+    console.log(question4Response)
+
+
+
+    let question1Risk = Math.abs(question1Response - DESIRE_RESPONSE[0]);
+    let question2Risk = Math.abs(question2Response - DESIRE_RESPONSE[0]);
+    let question3Risk = Math.abs(question3Response - DESIRE_RESPONSE[0]);
+    let question4Risk = Math.abs(question4Response - DESIRE_RESPONSE[0]);
+
+    
+    console.log("c1="+question1Risk);
+    console.log("c2="+question2Risk);
+    console.log("c3="+question3Risk);
+    console.log("c4="+question4Risk);
+
+
+    let totalRisk = question1Risk + question2Risk + question3Risk + question4Risk;
+    let RiskLevel;
+    if (totalRisk <=20) {
+        RiskLevel ="Low Risk";
+    }
+    else if (totalRisk <=50) {
+        RiskLevel ="Moderate Risk"
+    }
+    else if (totalRisk <=75) {
+        RiskLevel ="High Risk";
+    }
+    else {
+        RiskLevel = "Uninsurable";
+    }
+
+
+    document.getElementById("Risk").innerHTML = "Your total score: " + totalRisk + "<br/><br/>You are in the "+ RiskLevel + "Category";
+}
+</script>
+
+</body>
+</html>
